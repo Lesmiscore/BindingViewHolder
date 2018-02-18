@@ -1,0 +1,13 @@
+.gradle/
+build/
+local.properties
+*~
+~*
+*#*#
+libs/
+.idea/
+.idea/*
+*.iml
+out/
+*.log
+captures/
