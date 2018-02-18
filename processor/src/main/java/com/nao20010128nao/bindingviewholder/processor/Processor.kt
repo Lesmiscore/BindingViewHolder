@@ -15,14 +15,14 @@ class Processor : AbstractProcessor() {
     override fun process(types: MutableSet<out TypeElement>?, round: RoundEnvironment?): Boolean {
         round!!
         types!!
-        val dataBinding = processingEnv!!.elementUtils!!.getPackageElement("android.databinding.ViewDataBinding")!!
+        val dataBinding = processingEnv?.elementUtils?.getPackageElement("android.databinding.ViewDataBinding")
         types.flatMap { round.getElementsAnnotatedWith(it) }
                 .also { it.forEach { processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "1", it) } }
                 .filter { it.kind == ElementKind.CLASS }
                 .also { it.forEach { processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "2", it) } }
                 .map { it as TypeElement }
                 .also { it.forEach { processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "3", it) } }
-                .filter { it.superclass == dataBinding || it.toString() == dataBinding.toString() }
+                .filter { it.superclass == dataBinding || it.superclass.toString() == dataBinding?.toString() }
                 .forEach { processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "Found", it) }
         return true
     }
