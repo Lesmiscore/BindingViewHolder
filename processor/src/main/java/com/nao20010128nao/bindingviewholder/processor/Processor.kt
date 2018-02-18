@@ -7,6 +7,7 @@ import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
+import javax.tools.Diagnostic
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 @SupportedAnnotationTypes("java.lang.SuppressWarnings")
@@ -14,12 +15,12 @@ class Processor : AbstractProcessor() {
     override fun process(types: MutableSet<out TypeElement>?, round: RoundEnvironment?): Boolean {
         round!!
         types!!
-        val dataBinding=processingEnv!!.elementUtils!!.getPackageElement("android.databinding.ViewDataBinding")!!
+        val dataBinding = processingEnv!!.elementUtils!!.getPackageElement("android.databinding.ViewDataBinding")!!
         round.getElementsAnnotatedWith(SuppressWarnings::class.java)
-                .filter { it.kind==ElementKind.CLASS }
+                .filter { it.kind == ElementKind.CLASS }
                 .map { it as TypeElement }
-                .filter { it.superclass.equals(dataBinding) }
-                .forEach { println(it) }
+                .filter { it.superclass == dataBinding || it.toString() == dataBinding.toString() }
+                .forEach { processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "Found", it) }
         return true
     }
 }
