@@ -10,7 +10,7 @@ import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
-@SupportedAnnotationTypes("java.lang.SuppressWarnings")
+@SupportedAnnotationTypes("*")
 class Processor : AbstractProcessor() {
     override fun process(types: MutableSet<out TypeElement>?, round: RoundEnvironment?): Boolean {
         round!!
