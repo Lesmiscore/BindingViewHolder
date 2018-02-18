@@ -16,7 +16,7 @@ class Processor : AbstractProcessor() {
         round!!
         types!!
         val dataBinding = processingEnv!!.elementUtils!!.getPackageElement("android.databinding.ViewDataBinding")!!
-        round.getElementsAnnotatedWith(SuppressWarnings::class.java)
+        types.flatMap { round.getElementsAnnotatedWith(it) }
                 .filter { it.kind == ElementKind.CLASS }
                 .map { it as TypeElement }
                 .filter { it.superclass == dataBinding || it.toString() == dataBinding.toString() }
